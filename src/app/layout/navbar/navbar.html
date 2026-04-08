@@ -1,1 +1,18 @@
-<p>navbar works!</p>
+<nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/dashboard">BankAdmin</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link" aria-current="page" routerLink="/dashboard" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
+                <a class="nav-link" routerLink="/clientes" routerLinkActive="active">Clientes</a>
+                <a class="nav-link" routerLink="/tipos-cuenta" routerLinkActive="active">Tipos de Cuenta</a>
+                <a class="nav-link" routerLink="/cuentas" routerLinkActive="active">Cuentas</a>
+            </div>
+        </div>
+    </div>
+</nav>
