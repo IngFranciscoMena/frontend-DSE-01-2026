@@ -1,1 +1,49 @@
-<p>clientes-list works!</p>
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-lg-12 d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="fw-bold">Clientes</h2>
+                <p class="text-muted mb-0">Listado general de clientes registrados.</p>
+            </div>
+            <button class="btn btn-primary" routerLink="/clientes/nuevo">Nuevo Cliente</button>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-reponsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>DUI</th>
+                            <th>Telefono</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let cliente of clientes">
+                            <td>{{ cliente.codigo }}</td>
+                            <td>{{cliente.nombre}}</td>
+                            <td>{{cliente.dui}}</td>
+                            <td>{{cliente.telefono}}</td>
+                            <td>
+                                <span class="badge"
+                                    [ngClass]="cliente.estado === 'Activo' ? 'text-bg-success' : 'text-bg-danger'">
+                                    {{cliente.estado}}
+                                </span>
+                            </td>
+                            <td>
+                                <button class="btn btn-warning btn-sm">
+                                    Editar
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
