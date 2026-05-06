@@ -39,21 +39,22 @@ export class ClienteForm {
     this.codigoCliente = Number(codigoParametro);
     this.editando = true;
 
-    const cliente = this.clienteService.getClientePorCodigo(this.codigoCliente);
-
-    if (!cliente) {
-      this.router.navigate(['/clientes']);
-      return;
-    }
-
-    this.clienteForm.patchValue({ // get, post, put, delete, patch, option
-      nombre: cliente.nombre,
-      dui: cliente.dui,
-      telefono: cliente.telefono,
-      correo: cliente.correo,
-      direccion: cliente.direccion,
-      estado: cliente.estado
-    });
+    const cliente = this.clienteService.getClientePorCodigo(this.codigoCliente).subscribe({
+      next: (cliente) => {
+        this.clienteForm.patchValue({ // get, post, put, delete, patch, option
+          nombre: cliente.nombre,
+          dui: cliente.dui,
+          telefono: cliente.telefono,
+          correo: cliente.correo,
+          direccion: cliente.direccion,
+          estado: cliente.estado
+        });
+      },
+      error: (error) => {
+         this.router.navigate(['/clientes']);
+         return;
+      }
+    });    
   }
 
   // método vacio para construir nuestro grupo de formulario
@@ -80,13 +81,24 @@ export class ClienteForm {
     const cliente = this.clienteForm.value;
 
     if (this.editando && this.codigoCliente != null){
-      this.clienteService.updateCliente(this.codigoCliente, cliente);
+      this.clienteService.updateCliente(this.codigoCliente, cliente).subscribe({
+        next: (resp) => {
+          this.router.navigate(['clientes']);
+        },
+        error: (error) => {
+          console.error('Error al actualizar cliente', error);
+        }
+      });
     }else {
-      this.clienteService.saveCliente(cliente);
+      this.clienteService.saveCliente(cliente).subscribe({
+        next: (resp) => {
+          this.router.navigate(['clientes']);
+        },
+        error: (error) => {
+          console.error('Error al crear cliente', error);
+        }
+      });
     }   
-
-    // redirija al listado de clientes
-    this.router.navigate(['/clientes']);
   }
 
   // getters

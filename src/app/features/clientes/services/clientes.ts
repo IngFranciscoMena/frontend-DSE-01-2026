@@ -1,43 +1,42 @@
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { AuthService } from '../../../core/services/auth';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClientesService {
   
-  
-  clientes = [
-    { codigo: 1, nombre: 'Juan Pérez', dui: '00000000-0', telefono: '1234-5678', correo: "", direccion: "", estado: 'Activo' },
-    { codigo: 2, nombre: 'María López', dui: '11111111-1', telefono: '2345-6789', correo: "", direccion: "", estado: 'Inactivo' },
-    { codigo: 3, nombre: 'Carlos Gómez', dui: '22222222-2', telefono: '3456-7890', correo: "", direccion: "", estado: 'Activo' },
-  ];
+  private http = inject(HttpClient);
+  private authService = inject(AuthService);
+
+  private apiURL = `${environment.apiUrl}/clientes`;
+
+  private getHeaders() {
+    const token = this.authService.obtenerToken();
+
+    return {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      })
+    }
+  }
 
   getClientes(){
-    return this.clientes;
+    return this.http.get<any[]>(this.apiURL, this.getHeaders());
   }
 
   saveCliente(cliente: any){
-    // lógica 
-    const nuevoCodigo = this.clientes.length > 0 ? Math.max(...this.clientes.map(c => c.codigo)) + 1 : 1  // Spread Operator
-
-    cliente.codigo = nuevoCodigo;
-
-    this.clientes.push(cliente);
+    return this.http.post<any>(this.apiURL, cliente, this.getHeaders());
   }
 
   getClientePorCodigo(codigoCliente: number) {
-    return this.clientes.find(c => c.codigo === codigoCliente);
+    return this.http.get<any>(`${this.apiURL}/${codigoCliente}`, this.getHeaders());
   }
 
   updateCliente(codigoCliente: number, cliente: any) {
-    const index = this.clientes.findIndex(c => c.codigo === codigoCliente);
-
-    if (index >= 0){
-
-      cliente.codigo = codigoCliente;
-
-      this.clientes[index] = cliente;
-    }
+    return this.http.put<any>(`${this.apiURL}/${codigoCliente}`, cliente, this.getHeaders());
   }
 
 
