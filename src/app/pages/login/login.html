@@ -1,0 +1,40 @@
+<div class="login-container">
+  <div class="card shadow-sm border-0">
+    <div class="card-header text-center bg-white">
+      <h4 class="fw-bold mb-0">BankAdmin</h4>
+      <small class="text-muted">Inicio de sesión BackOffice</small>
+    </div>
+
+    <div class="card-body">
+      @if (mensajeError) {
+        <div class="alert alert-danger">
+          {{ mensajeError }}
+        </div>
+      }
+
+      <form [formGroup]="loginForm" (ngSubmit)="ingresar()">
+        <div class="mb-3">
+          <label class="form-label">Correo</label>
+          <input type="email" class="form-control" formControlName="correo">
+
+          @if (correo?.invalid && correo?.touched) {
+            <small class="text-danger">Ingrese un correo válido.</small>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Contraseña</label>
+          <input type="password" class="form-control" formControlName="password">
+
+          @if (password?.invalid && password?.touched) {
+            <small class="text-danger">La contraseña es obligatoria.</small>
+          }
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+          Ingresar
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

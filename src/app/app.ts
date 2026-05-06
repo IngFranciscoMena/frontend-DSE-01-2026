@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { Navbar } from './layout/navbar/navbar';
 
 @Component({
@@ -10,4 +10,5 @@ import { Navbar } from './layout/navbar/navbar';
 })
 export class App {
   protected readonly title = signal('bankadmin-frontend');
+  router = inject(Router);
 }
